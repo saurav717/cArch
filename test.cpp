@@ -11,7 +11,7 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
 {
   string temp;
   int indexD = 0, maxvalue = data.size()+5;
-
+  int there;
   for(long int i=index; i<data.size(); i++)
   {
     if(dataS == data.at(i))
@@ -21,8 +21,6 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
       break;
     }
   }
-
-//  cout<< "maxvalue = "<< maxvalue << "\n";
 
   for(int i=0; i<dataI.size(); i++)
   {
@@ -42,9 +40,28 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
     if(dataS == My_Cache[i])  // cache hit
     {
       hit = hit + 1;
-      cout << "hit\n";
-      if(replacement == "LRU" || replacement == "lru")
-      {  for(int j = i; j<My_Cache.size()-1; j++)
+      //cout << "hit\n";
+      if(replacement == "OPTIMAL" || replacement == "optimal")
+      {
+        int j = 0;
+        for(j=index;j<data.size();j++)
+        {
+          if(dataS == data.at(j))
+          {
+            maxvals[i] = j;
+            break;
+          }
+        }
+
+        if(j == data.size()-1)
+        {
+          maxvals[i] = data.size()+5;
+        }
+      }
+
+     else if(replacement == "LRU" || replacement == "lru")
+      {
+        for(int j = i; j<My_Cache.size()-1; j++)
         {
               swap(My_Cache.at(j),My_Cache.at(j+1)); //                                    My_Cache.at(j).push_back(My_Cache.at(j+1))
         }
@@ -67,12 +84,10 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
 
   if(My_Cache.size() == numberOfEntries) // cache is full and replacement should be done
   {
-      if(replacement == "OPTIMAL" || replacement == "optimal")                                           // OPTIMAL REPLACEMENT
+      if(replacement == "optimal" || replacement == "OPTIMAL")
       {
         int maxElementIndex = max_element(maxvals.begin(),maxvals.end()) - maxvals.begin();
         My_Cache[maxElementIndex] = dataS;
-        //cout << "max index" << maxElementIndex << "\n";
-        //cout << "My_Cache[46] = " <<My_Cache[46]<< "\n";
         maxvals[maxElementIndex] = maxvalue;
         return 0;
       }
@@ -85,7 +100,7 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
         {
               swap(My_Cache.at(j),My_Cache.at(j+1)); //                                    My_Cache.at(j).push_back(My_Cache.at(j+1))
         }
-        miss = miss + 1;
+          miss = miss + 1;
           return 0;
       }
   }
@@ -95,8 +110,6 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
     miss = miss + 1;
     My_Cache.push_back(dataS);
     maxvals.push_back(maxvalue);
-    //cout << maxvals.at(maxvals.size()-1) << "\n";
-    cout<<"compulsory misses = "<<compulsory_misses << "\n";
     return 0;
   }
 }
@@ -117,6 +130,7 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
         compulsory_misses = compulsory_misses + 1;
         dataI.push_back(data.at(i));
         My_Cache.push_back(data.at(i));
+
 
         for(int j=i+1; j<data.size(); j++)
         {
@@ -140,7 +154,7 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
   miss = compulsory_misses + capacity_misses;
   cout << "replacement policy - "<< replacement << "\n";
   cout << "total accesses = " << hit + miss << "\n";
-  cout << "hits = " << hit << ", misses = " << miss << "\n";
+  cout << "Total hits = " << hit << ", Total misses = " << miss << "\n";
   cout << "capacity misses = " << capacity_misses << "\n";
   cout << "compulsory misses = " << compulsory_misses << "\n";
 
