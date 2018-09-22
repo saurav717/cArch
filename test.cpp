@@ -43,8 +43,8 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
       //cout << "hit\n";
       if(replacement == "OPTIMAL" || replacement == "optimal")
       {
-        int j = 0;
-        for(j=index;j<data.size();j++)
+        int j ;
+        for( j=index;j<data.size();j++)
         {
           if(dataS == data.at(j))
           {
@@ -52,8 +52,7 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
             break;
           }
         }
-
-        if(j == data.size()-1)
+        if(j == data.size()-1 || j == data.size())
         {
           maxvals[i] = data.size()+5;
         }
