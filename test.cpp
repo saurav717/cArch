@@ -16,7 +16,7 @@ int search(string &dataS, vector<string> &My_Cache, int numberOfEntries, int &hi
   {
     if(dataS == data.at(i))
     {
-      cout << dataS << " data = " << data.at(i)<< " i = " <<i <<"\n";
+    //  cout << dataS << " data = " << data.at(i)<< " i = " <<i <<"\n";
       maxvalue = i;
       break;
     }
@@ -124,7 +124,6 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
   {
       if(My_Cache.size()==0)
       {
-      //  cout << "miss\n";
         miss = miss + 1;
         compulsory_misses = compulsory_misses + 1;
         dataI.push_back(data.at(i));
@@ -144,7 +143,6 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
       else
       {
           count++;
-    //      cout<<"count = "<< count << "\n";
           int t = i+1;
           search(data.at(i), My_Cache, numberOfEntries, hit, miss, compulsory_misses, capacity_misses, dataI, replacement, data, maxvals, t);
       }
@@ -154,43 +152,39 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
   cout << "replacement policy - "<< replacement << "\n";
   cout << "total accesses = " << hit + miss << "\n";
   cout << "Total hits = " << hit << ", Total misses = " << miss << "\n";
-  cout << "capacity misses = " << capacity_misses << "\n";
   cout << "compulsory misses = " << compulsory_misses << "\n";
+  cout << "capacity misses = " << capacity_misses << "\n";
 
 }
 
-int main()
+int main(int argc, char **argv)
 {
   ifstream file;
   char c;
+  string word, t,q,filename, NOE;
   string inputString, replacement;
   vector<string> data, My_Cache;
-  int numberOfEntries;
-  string word, t,q,filename;
-  filename = "AddressAccessSequence.txt";
-  //  filename = "AddressTrace_CacheBlocking.txt";
-//  My_Cache.reserve(numberOfEntries);
-  cout << "enter number of entries in the cache\n";
-  cin >> numberOfEntries;
-  cout << "enter the replacement method\n";
-  cin >> replacement;
-  //springstream sstm;
+  int numberOfEntries = 0;
+  stringstream SS(argv[3]);
+  //numberOfEntries << SS;
+  replacement = argv[1];
+  filename = argv[2];
+  //NOE = argv[3];
+
+  SS >> numberOfEntries;
+
+
+
   file.open(filename.c_str());
   int count = 0;
 
   while (file >> word)
   {
-      cout << word << endl;
+    //  cout << word << endl;
       data.push_back(word);
   }
 
-    cout << "\n\n" <<"Vector(1) = " << data.size() << "\n";
+    //cout << "\n\n" <<"Vector(1) = " << data.size() << "\n";
   file.close();
-//  if(replacement == "optimal" || replacement == "OPTIMAL")
-//  {
-//    optimal(data, My_Cache);
-//  }
-    LRU(data, My_Cache, numberOfEntries, replacement);
-
-
+  LRU(data, My_Cache, numberOfEntries, replacement);
 }
