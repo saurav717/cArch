@@ -124,10 +124,11 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
   vector<int> maxvals;
   ofstream myfile;
   string myfileName;
-  myfileName = "ES16BTECH11007_"+replacement+"_"+filename+"_"+numberOfEntries2+".txt";
+  myfileName = "ES16BTECH11007_"+replacement+"_"+filename+"_"+numberOfEntries2+".out";
   myfile.open(myfileName.c_str());
 
   int hit = 0, miss = 0, compulsory_misses = 0, capacity_misses = 0, temp,count = 0;
+
   for(int i = 0; i<data.size(); i++)
   {
       if(My_Cache.size()==0)
@@ -157,7 +158,7 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
 
   }
   miss = compulsory_misses + capacity_misses;
-  myfile << "replacement policy - "<< replacement << "\n";
+//  myfile << "replacement policy - "<< replacement << "\n";
   myfile << "total accesses = " << hit + miss << "\n";
   //myfile << "Total hits = " << hit << ", Total misses = " << miss << "\n";
   myfile << "Total misses = " << miss << "\n";
@@ -168,7 +169,6 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
     myfile << hitsAndMisses[i] << "\n";
   }
   myfile.close();
-
 }
 
 int main(int argc, char **argv)
