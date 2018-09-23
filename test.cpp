@@ -137,6 +137,7 @@ void LRU(vector<string> &data, vector<string> &My_Cache, int numberOfEntries,str
         compulsory_misses = compulsory_misses + 1;
         dataI.push_back(data.at(i));
         My_Cache.push_back(data.at(i));
+        hitsAndMisses.push_back("MISS");
 
 
         for(int j=i+1; j<data.size(); j++)
